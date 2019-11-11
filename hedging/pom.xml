@@ -43,7 +43,7 @@
 
     <dependency>
       <groupId>io.ktor</groupId>
-      <artifactId>ktor-client-cio</artifactId>
+      <artifactId>ktor-client-okhttp</artifactId>
       <version>${ktor.version}</version>
     </dependency>
 
