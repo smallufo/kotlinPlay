@@ -1,0 +1,30 @@
+twitterFlow/src/main/resources/twitter4j.properties
+
+##############################
+## Java
+##############################
+.mtj.tmp/
+*.war
+*.ear
+*.nar
+hs_err_pid*
+*.class
+
+**/target
+
+##############################
+## OS X
+##############################
+.DS_Store
+
+##############################
+## IntelliJ
+##############################
+out/
+.idea/
+.idea/**
+.idea_modules/
+*.iml
+**/*.iml
+*.ipr
+*.iws

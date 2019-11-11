@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>kotlin-play</artifactId>
+    <groupId>smallufo</groupId>
+    <version>0.1</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>hedging</artifactId>
+
+  <properties>
+    <ktor.version>1.2.5</ktor.version>
+  </properties>
+
+  <repositories>
+    <!--
+    for kotlin-coroutines-okhttp
+    -->
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+
+    <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
+    <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>4.2.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>ru.gildor.coroutines</groupId>
+      <artifactId>kotlin-coroutines-okhttp</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>io.ktor</groupId>
+      <artifactId>ktor-client-cio</artifactId>
+      <version>${ktor.version}</version>
+    </dependency>
+
+<!--    <dependency>-->
+<!--      <groupId>io.ktor</groupId>-->
+<!--      <artifactId>ktor-client-okhttp</artifactId>-->
+<!--      <version>${ktor.version}</version>-->
+<!--    </dependency>-->
+
+
+
+  </dependencies>
+
+</project>
