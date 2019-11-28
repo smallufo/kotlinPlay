@@ -12,6 +12,7 @@
     <module>twitterFlow</module>
     <module>rsocketPlay</module>
     <module>hedging</module>
+    <module>cve2014</module>
   </modules>
 
   <properties>

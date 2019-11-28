@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class AlphaBeanTest {
+public class AlphaBeanNameTest {
 
   @Test
   public void testName() {
