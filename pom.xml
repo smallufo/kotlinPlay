@@ -13,6 +13,7 @@
     <module>rsocketPlay</module>
     <module>hedging</module>
     <module>cve2014</module>
+    <module>batching</module>
   </modules>
 
   <properties>
