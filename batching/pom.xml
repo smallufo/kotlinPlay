@@ -17,6 +17,15 @@
       <artifactId>spring-batch-core</artifactId>
       <version>4.2.1.RELEASE</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>5.2.2.RELEASE</version>
+      <scope>test</scope>
+    </dependency>
+
+
   </dependencies>
 
 </project>
