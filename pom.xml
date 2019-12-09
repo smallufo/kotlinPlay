@@ -60,9 +60,10 @@
     </dependency>
 
 
+    <!-- https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-test-junit -->
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
-      <artifactId>kotlin-test</artifactId>
+      <artifactId>kotlin-test-junit</artifactId>
       <version>${kotlin.version}</version>
       <scope>test</scope>
     </dependency>
@@ -81,22 +82,17 @@
     </dependency>
 
 
-<!--    <dependency>-->
-<!--      <groupId>org.slf4j</groupId>-->
-<!--      <artifactId>slf4j-log4j12</artifactId>-->
-<!--      <version>${slf4j.version}</version>-->
-<!--      <scope>runtime</scope>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>log4j</groupId>-->
-<!--      <artifactId>log4j</artifactId>-->
-<!--      <version>1.2.17</version>-->
-<!--    </dependency>-->
-
-
-
-
-
+    <!--    <dependency>-->
+    <!--      <groupId>org.slf4j</groupId>-->
+    <!--      <artifactId>slf4j-log4j12</artifactId>-->
+    <!--      <version>${slf4j.version}</version>-->
+    <!--      <scope>runtime</scope>-->
+    <!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>log4j</groupId>-->
+    <!--      <artifactId>log4j</artifactId>-->
+    <!--      <version>1.2.17</version>-->
+    <!--    </dependency>-->
 
 
     <dependency>
@@ -112,7 +108,7 @@
       <version>RELEASE</version>
       <scope>test</scope>
     </dependency>
-    
+
 
   </dependencies>
 
