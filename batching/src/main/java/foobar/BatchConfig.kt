@@ -3,6 +3,7 @@
  */
 package foobar
 
+import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory
@@ -69,6 +70,11 @@ open class BatchConfig {
       .processor(processor)
       .writer(writer)
       .build()
+  }
+
+  @Bean
+  open fun simpleJob() : Job {
+    return jobBuilderFactory().get("simple").start(step1()).build()
   }
 
 

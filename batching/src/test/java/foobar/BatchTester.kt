@@ -5,6 +5,7 @@ package foobar
 
 import mu.KotlinLogging
 import org.junit.runner.RunWith
+import org.springframework.batch.core.Job
 import org.springframework.batch.core.JobParameters
 import org.springframework.batch.core.Step
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
@@ -43,6 +44,9 @@ class BatchTester {
   @Autowired
   private lateinit var step : Step
 
+  @Autowired
+  private lateinit var simpleJob : Job
+
   @Test
   fun testRun() {
     logger.info("transactionManager = {}", transactionManager)
@@ -52,7 +56,6 @@ class BatchTester {
     logger.info("stepBuilderFactory = {}" , stepBuilderFactory)
     logger.info("step = {}" , step)
 
-    val job = jobBuilderFactory.get("simple").start(step).build()
-    jobLauncher.run(job , JobParameters())
+    jobLauncher.run(simpleJob , JobParameters())
   }
 }
