@@ -4,7 +4,29 @@
 package foobar
 
 import io.ktor.client.request.get
+import kotlinx.coroutines.delay
+import mu.KotlinLogging
 import org.json.JSONObject
+
+suspend fun <T> retry(
+  times: Int = Int.MAX_VALUE,
+  initialDelay: Long = 1000, // 1 second
+  maxDelay: Long = 30000,   // 30 second
+  factor: Double = 2.0,
+  block: suspend () -> T): T {
+  var currentDelay = initialDelay
+  repeat(times - 1) {
+    try {
+      return block()
+    } catch (e: Throwable) {
+      KotlinLogging.logger { }.warn("throwable : {}", e.message)
+    }
+    delay(currentDelay)
+    currentDelay = (currentDelay * factor).toLong().coerceAtMost(maxDelay)
+  }
+  return block() // last attempt
+}
+
 
 object Geocoder {
 
@@ -46,17 +68,20 @@ object Geocoder {
   }
    */
   suspend fun getLanLng(name: String, country: String): Pair<Double, Double>? {
-    return ktorClient.get<String>("https://geocode.xyz/$name $country?json=1").let { raw ->
 
-      val json = JSONObject(raw)
-      val lat = json.optNumber("latt", null)?.toDouble()
-      val lng = json.optNumber("longt", null)?.toDouble()
-      if (lat != null && lng != null) {
-        (lat to lng).also {
-          logger.info("querying : {} : {}  : {}", name, country, it)
+    return retry {
+      ktorClient.get<String>("https://geocode.xyz/$name $country?json=1").let { raw ->
+
+        val json = JSONObject(raw)
+        val lat = json.optNumber("latt", null)?.toDouble()
+        val lng = json.optNumber("longt", null)?.toDouble()
+        if (lat != null && lng != null) {
+          (lat to lng).also {
+            logger.info("querying : {} : {}  : {}", name, country, it)
+          }
+        } else {
+          null
         }
-      } else {
-        null
       }
     }
   }
