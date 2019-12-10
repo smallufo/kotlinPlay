@@ -3,6 +3,7 @@
  */
 package foobar
 
+import io.ktor.client.features.UserAgent
 import io.ktor.client.request.get
 import kotlinx.coroutines.delay
 import mu.KotlinLogging
@@ -30,7 +31,14 @@ suspend fun <T> retry(
 
 object Geocoder {
 
-  private val ktorClient = io.ktor.client.HttpClient()
+  private val ktorClient = io.ktor.client.HttpClient() {
+
+    install(UserAgent) {
+      agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Safari/605.1.15"
+    }
+
+    //BrowserUserAgent()
+  }
 
   /**
    * sample : https://geocode.xyz/Taipei+Taiwan?json=1

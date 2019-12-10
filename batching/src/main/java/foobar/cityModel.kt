@@ -29,6 +29,7 @@ val logger = KotlinLogging.logger { }
 
 @Component
 class CityItemReader : FlatFileItemReader<CityName>() {
+
   init {
     setLinesToSkip(1)
     setResource(ClassPathResource("cities.csv"))
