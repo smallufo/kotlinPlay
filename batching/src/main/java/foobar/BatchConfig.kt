@@ -4,45 +4,72 @@
 package foobar
 
 import org.springframework.batch.core.Step
+import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory
+import org.springframework.batch.core.launch.JobLauncher
+import org.springframework.batch.core.launch.support.SimpleJobLauncher
+import org.springframework.batch.core.repository.JobRepository
+import org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean
+import org.springframework.batch.item.ItemProcessor
 import org.springframework.batch.item.ItemReader
+import org.springframework.batch.item.ItemWriter
+import org.springframework.batch.support.transaction.ResourcelessTransactionManager
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
-import java.time.format.DateTimeFormatter
+import org.springframework.transaction.PlatformTransactionManager
 
 
 @Configuration
+@ComponentScan
 open class BatchConfig {
 
-  private val df = DateTimeFormatter.ofPattern("M/d/y")
+  @Autowired
+  private lateinit var reader: ItemReader<CityName>
+
+  @Autowired
+  private lateinit var processor: ItemProcessor<CityName, CityLocation>
+
+  @Autowired
+  private lateinit var writer: ItemWriter<CityLocation>
+
+  @Bean
+  open fun transactionManager(): PlatformTransactionManager {
+    return ResourcelessTransactionManager()
+  }
+
+  @Bean
+  open fun jobRepo(): JobRepository {
+    return MapJobRepositoryFactoryBean(transactionManager()).`object`
+  }
+
+  @Bean
+  open fun jobLauncher(): JobLauncher {
+    return SimpleJobLauncher().apply {
+      setJobRepository(jobRepo())
+    }
+  }
+
+  @Bean
+  open fun jobBuilderFactory(): JobBuilderFactory {
+    return JobBuilderFactory(jobRepo())
+  }
+
+  @Bean
+  open fun stepBuilderFactory(): StepBuilderFactory {
+    return StepBuilderFactory(jobRepo(), transactionManager())
+  }
 
 
   @Bean
-  open fun readStep(stepBuilderFactory: StepBuilderFactory, reader: ItemReader<Record>): Step {
-//    FlatFileItemReaderBuilder<Record>()
-//      .name("reader")
-//      .resource(ClassPathResource("100_Sales_Records.csv"))
-//      .lineMapper { line, index ->
-//        val tokens = line.split(",")
-//          val region = tokens[0]
-//          val country = tokens[1]
-//          val itemType = tokens[2]
-//          val salesChannel = tokens[3]
-//          val orderPriority = tokens[4][0]
-//          val orderDate = LocalDate.parse(tokens[5], df)
-//          val orderId = tokens[6].toLong()
-//          val shipDate = LocalDate.parse(tokens[7], df)
-//          val unitsSold = tokens[8].toInt()
-//          val unitPrice = tokens[9].toDouble()
-//          val unitCost = tokens[10].toDouble()
-//          val totalRevenue = tokens[11].toDouble()
-//          val totalCost = tokens[12].toDouble()
-//          val totalProfit = tokens[13].toDouble()
-//          Record(region, country, itemType, salesChannel, orderPriority, orderDate, orderId, shipDate, unitsSold,
-//                 unitPrice, unitCost, totalRevenue, totalCost, totalProfit)
-//      }
-    return stepBuilderFactory.get("readStep").chunk<Record , Record>(10)
+  open fun step1(): Step {
+    return stepBuilderFactory().get("readStep").chunk<CityName, CityLocation>(10)
       .reader(reader)
+      .processor(processor)
+      .writer(writer)
       .build()
   }
+
+
 }
