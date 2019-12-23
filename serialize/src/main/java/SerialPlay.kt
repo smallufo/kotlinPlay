@@ -17,6 +17,9 @@ class Dog : IRunnable {
   }
 }
 
+
+
+@Serializer(forClass = IRunnable::class)
 class RunnableSerializer : KSerializer<IRunnable> {
   override val descriptor: SerialDescriptor
     get() = StringDescriptor.withName("runnable")
