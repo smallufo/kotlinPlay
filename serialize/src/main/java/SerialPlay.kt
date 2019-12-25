@@ -24,8 +24,6 @@ class RunnableSerializer : KSerializer<IRunnable> {
   override val descriptor: SerialDescriptor
     get() = StringDescriptor.withName("runnable")
 
-
-
   override fun serialize(encoder: Encoder, obj: IRunnable) {
     val stringValue = when (obj) {
       is Horse -> { "H" }
