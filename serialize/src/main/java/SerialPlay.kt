@@ -26,8 +26,6 @@ class RunnableSerializer : KSerializer<IRunnable> {
     get() = SerialClassDescImpl("runnable")
     //get() = StringDescriptor.withName("runnable")
 
-
-
   override fun serialize(encoder: Encoder, obj: IRunnable) {
     val stringValue = when (obj) {
       is Cat -> { "C" }
