@@ -1,9 +1,8 @@
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.SerialClassDescImpl
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonInput
-import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.serializersModule
+import kotlinx.serialization.modules.serializersModuleOf
 import mu.KotlinLogging
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -13,7 +12,7 @@ val logger = KotlinLogging.logger {  }
 
 
 @Serializer(forClass = Cat::class)
-object HorseSerializer
+object CatSerializer
 
 @Serializer(forClass = Dog::class)
 object DogSerializer
@@ -28,16 +27,19 @@ class RunnableTest {
   @Test
   fun testJson() {
 
-    val runnableModule = SerializersModule {
+    val module1 = SerializersModule {
       polymorphic(IRunnable::class) {
-        Cat::class with HorseSerializer
+        Cat::class with CatSerializer
         Dog::class with DogSerializer
       }
     }
 
+    val module2 = serializersModule(RunnableSerializer())
+    val module3 = serializersModuleOf(IRunnable::class , RunnableSerializer())
+
     val zoo = Zoo(Dog())
 
-    val json = Json(context = runnableModule)
+    val json = Json(context = module3)
 
     json.stringify(Zoo.serializer() , zoo).also {
       logger.info("zoo = {}" , it)
