@@ -1,11 +1,12 @@
 import kotlinx.serialization.*
+import kotlinx.serialization.internal.SerialClassDescImpl
 import kotlinx.serialization.internal.StringDescriptor
 
 interface IRunnable {
   fun run()
 }
 
-class Horse : IRunnable {
+class Cat : IRunnable {
   override fun run() {
     println("horse running")
   }
@@ -22,13 +23,14 @@ class Dog : IRunnable {
 @Serializer(forClass = IRunnable::class)
 class RunnableSerializer : KSerializer<IRunnable> {
   override val descriptor: SerialDescriptor
-    get() = StringDescriptor.withName("runnable")
+    get() = SerialClassDescImpl("runnable")
+    //get() = StringDescriptor.withName("runnable")
 
 
 
   override fun serialize(encoder: Encoder, obj: IRunnable) {
     val stringValue = when (obj) {
-      is Horse -> { "H" }
+      is Cat -> { "C" }
       is Dog -> { "D" }
       else -> { null }
     }
@@ -40,7 +42,7 @@ class RunnableSerializer : KSerializer<IRunnable> {
   override fun deserialize(decoder: Decoder): IRunnable {
     return decoder.decodeString().let { value ->
       when(value) {
-        "H" -> Horse()
+        "C" -> Cat()
         "D" -> Dog()
         else -> throw RuntimeException("invalid $value")
       }
