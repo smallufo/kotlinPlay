@@ -12,28 +12,11 @@ import kotlin.test.assertEquals
 val logger = KotlinLogging.logger {  }
 
 
-@Serializer(forClass = Horse::class)
-object HorseSerializer {
-  override fun serialize(encoder: Encoder, obj: Horse) {
-    encoder.encodeString("H")
-  }
-}
+@Serializer(forClass = Cat::class)
+object HorseSerializer
 
 @Serializer(forClass = Dog::class)
-object DogSerializer {
-//  override fun serialize(encoder: Encoder, obj: Dog) {
-//    encoder.encodeString("D")
-//  }
-//
-//  override fun deserialize(decoder: Decoder): Dog {
-//    val input = decoder as? JsonInput
-//      ?: throw SerializationException("This class can be loaded only by Json")
-//    val tree = input.decodeJson() as? JsonObject
-//      ?: throw SerializationException("Expected JsonObject")
-//    logger.info("tree = {}" , tree)
-//    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//  }
-}
+object DogSerializer
 
 @Serializable
 data class Zoo(val runnable : IRunnable)
@@ -47,7 +30,7 @@ class RunnableTest {
 
     val runnableModule = SerializersModule {
       polymorphic(IRunnable::class) {
-        Horse::class with HorseSerializer
+        Cat::class with HorseSerializer
         Dog::class with DogSerializer
       }
     }
