@@ -1,23 +1,56 @@
+
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.SerialClassDescImpl
 import kotlinx.serialization.internal.StringDescriptor
+import kotlinx.serialization.json.JsonInput
+import kotlinx.serialization.json.JsonObject
 
 interface IRunnable {
   fun run()
 }
 
-class Cat : IRunnable {
+@Polymorphic
+@Serializable
+abstract class Animal
+
+@Serializable
+class Cat : Animal() , IRunnable {
   override fun run() {
     println("horse running")
   }
 }
 
-class Dog : IRunnable {
+@Serializable
+class Dog : Animal() , IRunnable {
   override fun run() {
     println("dog running")
   }
 }
 
+
+/**
+ * https://medium.com/transferwise-engineering/how-to-master-polymorphism-and-custom-serializers-in-kotlinx-serialization-7190da0f42aa
+ */
+class AnimalSerializer : KSerializer<Animal> {
+  override val descriptor: SerialDescriptor
+    get() = StringDescriptor.withName("animal")
+
+
+  override fun serialize(encoder: Encoder, obj: Animal) {
+    when(obj) {
+      is Cat -> encoder.encodeString("C")
+      is Dog -> encoder.encodeString("D")
+    }
+  }
+
+  override fun deserialize(decoder: Decoder): Animal {
+    val input = decoder as? JsonInput ?: throw SerializationException("Expected JsonInput for ${decoder::class}")
+    val jsonObject = input.decodeJson() as? JsonObject ?: throw SerializationException("Expected JsonObject for ${input.decodeJson()::class}")
+    println("jsonObject = $jsonObject")
+    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+  }
+
+}
 
 
 @Serializer(forClass = IRunnable::class)

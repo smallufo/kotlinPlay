@@ -15,6 +15,7 @@
     <module>cve2014</module>
     <module>batching</module>
     <module>serialize</module>
+    <module>springBoot</module>
   </modules>
 
   <properties>
@@ -80,7 +81,6 @@
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>1.2.3</version>
-      <scope>test</scope>
     </dependency>
 
 
