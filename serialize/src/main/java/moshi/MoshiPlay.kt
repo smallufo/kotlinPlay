@@ -27,7 +27,7 @@ class Dog : IRunnable {
   }
 }
 
-@JsonClass(generateAdapter = true)
+//@JsonClass(generateAdapter = true)
 data class Zoo(
   val runnable : IRunnable
 )
@@ -37,26 +37,18 @@ class RunnableAdapter {
   @ToJson
   fun toJson(runnable: IRunnable) : String {
     return when (runnable) {
-      is Cat -> {
-        "C"
-      }
-      is Dog -> {
-        "D"
-      }
-      else -> {
-        "X"
-      }
+      is Cat -> { "C" }
+      is Dog -> { "D" }
+      else -> { "X" }
     }
   }
 
   @FromJson
   fun fromJson(raw : String): IRunnable {
-    return if (raw == "C") {
-      Cat()
-    }  else if (raw =="D") {
-      Dog()
-    } else {
-      throw RuntimeException("?")
+    return when (raw) {
+      "C" -> { Cat() }
+      "D" -> { Dog() }
+      else -> { throw RuntimeException("?") }
     }
   }
 }
