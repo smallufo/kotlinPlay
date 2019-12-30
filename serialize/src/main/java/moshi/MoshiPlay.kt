@@ -1,14 +1,6 @@
-/**
- * Created by smallufo on 2019-12-29.
- */
 package moshi
 
-import com.squareup.moshi.FromJson
-import com.squareup.moshi.JsonClass
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.ToJson
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import mu.KotlinLogging
+import com.squareup.moshi.*
 
 
 interface IRunnable {
@@ -16,66 +8,100 @@ interface IRunnable {
 }
 
 class Cat : IRunnable {
-  override fun run() {
-    println("cat running")
-  }
+  override fun run() { println("cat running") }
 }
 
 class Dog : IRunnable {
-  override fun run() {
-    println("dog running")
+  override fun run() { println("dog running") }
+}
+
+interface IMapConverter<T> {
+  fun getMap(impl : T) : Map<String , String>
+  fun getImpl(map : Map<String , String>) : T?
+}
+
+class RunnableConverter : IMapConverter<IRunnable> {
+  private val key = "runnable"
+
+  override fun getMap(impl: IRunnable): Map<String, String> {
+    val value = when(impl) {
+      is Cat -> "C"
+      is Dog -> "D"
+      else -> throw RuntimeException("error")
+    }
+    return mapOf(key to value)
+  }
+
+  override fun getImpl(map: Map<String, String>): IRunnable? {
+    return map[key]?.let { value ->
+      when (value) {
+        "C" -> Cat()
+        "D" -> Dog()
+        else -> throw RuntimeException("error")
+      }
+    }
+  }
+
+  fun getAdapter() : JsonAdapter<IRunnable> {
+    return object : JsonAdapter<IRunnable>() {
+
+      @ToJson
+      override fun toJson(writer: JsonWriter, runnable: IRunnable?) {
+        runnable?.also { impl ->
+          writer.beginObject()
+          getMap(impl).forEach { (key , value) ->
+            writer.name(key).value(value)
+          }
+          writer.endObject()
+        }
+      }
+
+      @FromJson
+      override fun fromJson(reader: JsonReader): IRunnable? {
+        reader.beginObject()
+
+        val map = mutableMapOf<String , String>().apply {
+          while (reader.hasNext()) {
+            put(reader.nextName() , reader.nextString())
+          }
+        }
+        val result = getImpl(map)
+
+        reader.endObject()
+        return result
+      }
+    }
   }
 }
 
-//@JsonClass(generateAdapter = true)
-data class Zoo(
-  val runnable : IRunnable
-)
+fun <T> IMapConverter<T>.toJsonAdapter() : JsonAdapter<T> {
+  return object : JsonAdapter<T>() {
 
-class RunnableAdapter {
-
-  @ToJson
-  fun toJson(runnable: IRunnable) : String {
-    return when (runnable) {
-      is Cat -> { "C" }
-      is Dog -> { "D" }
-      else -> { "X" }
+    @ToJson
+    override fun toJson(writer: JsonWriter, value: T?) {
+      value?.also { impl ->
+        writer.beginObject()
+        getMap(impl).forEach { (key , value) ->
+          writer.name(key).value(value)
+        }
+        writer.endObject()
+      }
     }
-  }
 
-  @FromJson
-  fun fromJson(raw : String): IRunnable {
-    return when (raw) {
-      "C" -> { Cat() }
-      "D" -> { Dog() }
-      else -> { throw RuntimeException("?") }
-    }
-  }
-}
+    @FromJson
+    override fun fromJson(reader: JsonReader): T? {
+      reader.beginObject()
 
-fun main() {
-  val logger = KotlinLogging.logger {  }
-  val moshi = Moshi.Builder()
-    .add(RunnableAdapter())
-    .add(KotlinJsonAdapterFactory())
-    .build()
+      val map = mutableMapOf<String , String>().apply {
+        while (reader.hasNext()) {
+          put(reader.nextName() , reader.nextString())
+        }
+      }
 
-
-  val ada = moshi.adapter<IRunnable>(IRunnable::class.java)
-  ada.toJson(Dog()).also { json ->
-    logger.info("json of dog = {}" , json)
-    ada.fromJson(json).also { runnable ->
-      logger.info("runnable = {}" , runnable)
-    }
-  }
-
-  val zoo = Zoo(Dog())
-
-  val adapter = moshi.adapter<Zoo>(Zoo::class.java)
-  adapter.toJson(zoo).also { json ->
-    logger.info("zoo json = {}" , json)
-    adapter.fromJson(json).also { z ->
-      logger.info("z obj = {}" , z)
+      val result = getImpl(map)
+      reader.endObject()
+      return result
     }
   }
 }
+
