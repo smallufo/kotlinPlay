@@ -51,7 +51,8 @@ class MoshiTest {
     val converter = RunnableConverter()
 
     val moshi = Moshi.Builder()
-      .add(converter.toJsonAdapter())
+      .add(IRunnable::class.java, converter.toJsonAdapter())
+      //.add(converter.toJsonAdapter())
       .build()
 
     val adapter = moshi.adapter<Any>(Any::class.java)

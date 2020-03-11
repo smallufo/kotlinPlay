@@ -74,7 +74,7 @@ class RunnableConverter : IMapConverter<IRunnable> {
   }
 }
 
-fun <T> IMapConverter<T>.toJsonAdapter() : JsonAdapter<T> {
+inline fun <reified T> IMapConverter<T>.toJsonAdapter() : JsonAdapter<T> {
   return object : JsonAdapter<T>() {
 
     @ToJson
