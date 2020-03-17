@@ -18,6 +18,7 @@
     <module>springBoot</module>
     <module>restEasyPlay</module>
     <module>spring</module>
+    <module>phone</module>
   </modules>
 
   <properties>
