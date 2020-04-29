@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="test" pageWidth="800" pageHeight="1200" columnWidth="555" leftMargin="25" rightMargin="25" topMargin="30" bottomMargin="30">
+
+  <property name="ireport.zoom" value="1.0"/>
+
+  <property name="ireport.x" value="0"/>
+
+  <property name="ireport.y" value="0"/>
+
+  <queryString>
+
+    <![CDATA[]]>
+
+  </queryString>
+
+  <pageHeader>
+
+    <band height="100">
+
+      <staticText>
+
+        <reportElement x="0" y="0" width="285" height="36"/>
+
+        <textElement>
+
+          <font size="24" isBold="true"/>
+
+        </textElement>
+
+        <text><![CDATA[Report of Testing]]></text>
+
+      </staticText>
+
+    </band>
+
+  </pageHeader>
+
+  <detail>
+
+    <band height="200">
+
+      <staticText>
+
+        <reportElement x="0" y="0" width="374" height="48"/>
+
+        <textElement>
+
+          <font size="18"/>
+
+        </textElement>
+
+        <text><![CDATA[If you don't see this, it didn't work blah blah blah.... ]]></text>
+
+      </staticText>
+
+    </band>
+
+  </detail>
+
+  <pageFooter>
+
+    <band height="100"/>
+
+  </pageFooter>
+
+</jasperReport>

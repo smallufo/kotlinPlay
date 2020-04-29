@@ -19,10 +19,11 @@
     <module>restEasyPlay</module>
     <module>spring</module>
     <module>phone</module>
+    <module>jasperReport</module>
   </modules>
 
   <properties>
-    <kotlin.version>1.3.71</kotlin.version>
+    <kotlin.version>1.3.72</kotlin.version>
     <kotlin.coroutine.version>1.3.2</kotlin.coroutine.version>
     <kotlin.compiler.incremental>false</kotlin.compiler.incremental>
     <slf4j.version>1.7.28</slf4j.version>
