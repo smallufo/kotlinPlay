@@ -12,7 +12,6 @@
   <artifactId>phone</artifactId>
 
   <dependencies>
-    <!-- https://mvnrepository.com/artifact/com.googlecode.libphonenumber/libphonenumber -->
     <dependency>
       <groupId>com.googlecode.libphonenumber</groupId>
       <artifactId>libphonenumber</artifactId>

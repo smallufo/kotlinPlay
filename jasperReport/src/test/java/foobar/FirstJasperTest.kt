@@ -7,8 +7,11 @@ import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream
 import mu.KotlinLogging
 import net.sf.jasperreports.engine.*
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import org.springframework.core.io.support.ResourcePatternResolver
+import java.io.File
+import java.io.FileOutputStream
 import kotlin.test.Test
 
 
@@ -40,18 +43,78 @@ class FirstJasperTest {
     }
   }
 
-
   @Test
-  fun fill() {
+  fun fillEmptyToBytes() {
     javaClass.getResourceAsStream("/Empty.jrxml").use { iStream ->
       val jr: JasperReport = JasperCompileManager.compileReport(iStream)
       logger.info("jr = {}", jr)
 
       val jasperPrint: JasperPrint = JasperFillManager
-        .fillReport(jr , mutableMapOf(), JRBeanArrayDataSource(arrayOf()))
-      val bos = ByteOutputStream()
-      JasperExportManager.exportReportToPdfStream(jasperPrint , bos)
-      logger.info("bytes size = {}" , bos.bytes.size)
+        .fillReport(jr, mutableMapOf(), JRBeanArrayDataSource(arrayOf()))
+
+      ByteOutputStream().use { bos ->
+        JasperExportManager.exportReportToPdfStream(jasperPrint, bos)
+        logger.info("bytes size = {}", bos.bytes.size)
+      }
+    }
+  }
+
+  @Test
+  fun fillEmptyToFile() {
+    javaClass.getResourceAsStream("/Empty.jrxml").use { iStream ->
+      val jr: JasperReport = JasperCompileManager.compileReport(iStream)
+      logger.info("jr = {}", jr)
+
+      val jasperPrint: JasperPrint = JasperFillManager
+        .fillReport(jr, mutableMapOf(), JRBeanArrayDataSource(arrayOf()))
+
+      FileOutputStream(File("/tmp/empty.pdf")).use { fos ->
+        JasperExportManager.exportReportToPdfStream(jasperPrint, fos)
+      }
+    }
+  }
+
+  @Test
+  fun showPerson_english() {
+    javaClass.getResourceAsStream("/docs/Persons.jrxml").use { iStream ->
+      val jr: JasperReport = JasperCompileManager.compileReport(iStream)
+
+      val persons = listOf(
+        Person("Andy", "USA"),
+        Person("Bob", "Brazil"),
+        Person("Cathy", "Canada")
+      )
+
+      val beanColDataSource: JRDataSource = JRBeanCollectionDataSource(persons)
+
+      val jasperPrint: JasperPrint = JasperFillManager.fillReport(jr, mutableMapOf(), beanColDataSource)
+
+      FileOutputStream(File("/tmp/persons_english.pdf")).use { fos ->
+        JasperExportManager.exportReportToPdfStream(jasperPrint, fos)
+      }
+    }
+  }
+
+  @Test
+  fun showPerson_withChineseChars() {
+    javaClass.getResourceAsStream("/docs/PersonsChinese.jrxml").use { iStream ->
+      val jr: JasperReport = JasperCompileManager.compileReport(iStream)
+
+      val persons = listOf(
+        Person("Andy", "USA"),
+        Person("Bob", "Brazil"),
+        Person("Cathy", "Canada"),
+        Person("李小明", "Taiwan"),
+        Person("許功蓋堃", "台灣")
+      )
+
+      val beanColDataSource: JRDataSource = JRBeanCollectionDataSource(persons)
+
+      val jasperPrint: JasperPrint = JasperFillManager.fillReport(jr, mutableMapOf(), beanColDataSource)
+
+      FileOutputStream(File("/tmp/persons_chinese.pdf")).use { fos ->
+        JasperExportManager.exportReportToPdfStream(jasperPrint, fos)
+      }
     }
   }
 }
