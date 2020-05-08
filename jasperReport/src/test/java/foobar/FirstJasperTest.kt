@@ -3,13 +3,13 @@
  */
 package foobar
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream
 import mu.KotlinLogging
 import net.sf.jasperreports.engine.*
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import org.springframework.core.io.support.ResourcePatternResolver
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.test.Test
@@ -52,9 +52,9 @@ class FirstJasperTest {
       val jasperPrint: JasperPrint = JasperFillManager
         .fillReport(jr, mutableMapOf(), JRBeanArrayDataSource(arrayOf()))
 
-      ByteOutputStream().use { bos ->
+      ByteArrayOutputStream().use { bos ->
         JasperExportManager.exportReportToPdfStream(jasperPrint, bos)
-        logger.info("bytes size = {}", bos.bytes.size)
+        logger.info("bytes size = {}", bos.toByteArray().size)
       }
     }
   }
