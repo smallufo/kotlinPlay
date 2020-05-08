@@ -30,7 +30,7 @@ class FirstJasperTest {
   @Test
   fun buildFilenameReportMap() {
     val resolver = PathMatchingResourcePatternResolver()
-    val map = resolver.getResources(ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "**/*.jrxml").map { r ->
+    val map: Map<String, JasperReport> = resolver.getResources(ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "**/*.jrxml").map { r ->
       val jr: JasperReport = r.inputStream.use { iStream ->
         JasperCompileManager.compileReport(iStream)
       }

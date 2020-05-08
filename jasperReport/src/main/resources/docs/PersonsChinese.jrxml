@@ -42,7 +42,7 @@
         <reportElement x="414" y="3" width="121" height="15"/>
 
         <textElement textAlignment="Center" verticalAlignment="Middle">
-          <font fontName="Kaiti TC" isBold="true"/>
+          <font isBold="true"/>
         </textElement>
 
         <text><![CDATA[Country]]></text>
@@ -52,7 +52,7 @@
         <reportElement x="0" y="3" width="136" height="15"/>
 
         <textElement textAlignment="Center" verticalAlignment="Middle">
-          <font fontName="PingFang TC" isBold="true"/>
+          <font isBold="true"/>
         </textElement>
 
         <text><![CDATA[Name]]></text>
@@ -80,7 +80,7 @@
         <reportElement x="414" y="0" width="121" height="15"/>
 
         <textElement textAlignment="Center" verticalAlignment="Middle">
-          <font size="9"/>
+          <font size="9" fontName="Kaiti TC"/>
         </textElement>
 
         <textFieldExpression class="java.lang.String">
@@ -90,7 +90,9 @@
 
       <textField>
         <reportElement x="0" y="0" width="136" height="15"/>
-        <textElement textAlignment="Center" verticalAlignment="Middle"/>
+        <textElement textAlignment="Center" verticalAlignment="Middle">
+          <font size="9" fontName="PingFang TC" />
+        </textElement>
 
         <textFieldExpression class="java.lang.String">
           <![CDATA[$F{name}]]>
