@@ -4,6 +4,12 @@
 package foobar
 
 import mu.KotlinLogging
+import org.apache.commons.configuration2.FileBasedConfiguration
+import org.apache.commons.configuration2.PropertiesConfiguration
+import org.apache.commons.configuration2.builder.ReloadingFileBasedConfigurationBuilder
+import org.apache.commons.configuration2.builder.fluent.Parameters
+import org.apache.commons.configuration2.reloading.PeriodicReloadingTrigger
+import org.apache.commons.configuration2.spring.ConfigurationPropertySource
 import org.junit.runner.RunWith
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.core.env.ConfigurableEnvironment
@@ -17,6 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.util.ResourceUtils
 import java.io.File
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -80,15 +87,70 @@ class PropertiesTest {
     assertEquals("DynamicUser" , resolver.getProperty("user.alias"))
   }
 
+  @Test
+  fun apacheSolution() {
+    val tempFile = File("/tmp/server-temp.properties")
+    require(tempFile.exists())
+
+    val params = Parameters()
+    val builder = ReloadingFileBasedConfigurationBuilder<FileBasedConfiguration>(PropertiesConfiguration::class.java)
+      .configure(params.fileBased().setFile(tempFile))
+
+    val trigger = PeriodicReloadingTrigger(builder.reloadingController, null, 1, TimeUnit.SECONDS)
+    trigger.start()
+
+    while(true) {
+      logger.info("user.alias = {}" , builder.configuration.getString("user.alias"))
+      TimeUnit.SECONDS.sleep(1)
+    }
+  }
+
+  @Test
+  fun apacheWithSpring() {
+    val tempFile = File("/tmp/server-temp.properties")
+    require(tempFile.exists())
+
+    val params = Parameters()
+    val builder = ReloadingFileBasedConfigurationBuilder<FileBasedConfiguration>(PropertiesConfiguration::class.java)
+      .configure(params.fileBased().setFile(tempFile))
+
+    val apachePropertySource = ConfigurationPropertySource("APACHE-IMPL" , builder.configuration)
+    val trigger = PeriodicReloadingTrigger(builder.reloadingController, null, 1, TimeUnit.SECONDS)
+    trigger.start()
+
+    val propertySources = MutablePropertySources()
+    propertySources.addLast(apachePropertySource)
+    propertySources.addLast(ResourcePropertySource(FileSystemResource(ResourceUtils.getFile("classpath:server-defaults.properties"))))
+
+
+    val resolver = PropertySourcesPropertyResolver(propertySources)
+
+    while(true) {
+      logger.info("user.alias = {}" , resolver.getProperty("user.alias"))
+      TimeUnit.SECONDS.sleep(1)
+    }
+  }
 
   @Test
   fun reloadablePropertySource() {
+
+    val tempFile = File("/tmp/server-temp.properties")
+    require(tempFile.exists())
+
+
     val propertySources = MutablePropertySources()
 
-    propertySources.addLast(ReloadablePropertySource("SERVER-TEMP", FileSystemResource(File("/tmp/server-temp.properties"))))
+    propertySources.addLast(ReloadablePropertySource("SERVER-TEMP", FileSystemResource(tempFile)))
     propertySources.addLast(ResourcePropertySource(FileSystemResource(ResourceUtils.getFile("classpath:server-defaults.properties"))))
     propertySources.forEach { pSource ->
       logger.info("property source name = {} , user.alias = {}", pSource, pSource.getProperty("user.alias"))
+    }
+
+    val resolver = PropertySourcesPropertyResolver(propertySources)
+
+    while(true) {
+      logger.info("user.alias = {}" , resolver.getProperty("user.alias"))
+      TimeUnit.SECONDS.sleep(1)
     }
 
 

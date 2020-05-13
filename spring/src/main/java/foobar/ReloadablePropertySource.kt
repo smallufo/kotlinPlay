@@ -5,6 +5,7 @@ package foobar
 
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.support.ResourcePropertySource
+import java.io.File
 
 
 /**
@@ -12,4 +13,17 @@ import org.springframework.core.io.support.ResourcePropertySource
  */
 class ReloadablePropertySource(
   name: String, fileSystemResource: FileSystemResource) : ResourcePropertySource(name, fileSystemResource) {
+
+
+
+  init {
+
+    val file = fileSystemResource.file
+    val lastModified = file.lastModified()
+    map[file] = lastModified
+  }
+
+  companion object {
+    val map = mutableMapOf<File, Long>()
+  }
 }
