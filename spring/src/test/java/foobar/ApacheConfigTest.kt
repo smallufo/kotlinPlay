@@ -13,16 +13,15 @@ import org.apache.commons.configuration2.spring.ConfigurationPropertySource
 import org.junit.runner.RunWith
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.core.env.ConfigurableEnvironment
-import org.springframework.core.env.MapPropertySource
 import org.springframework.core.env.MutablePropertySources
 import org.springframework.core.env.PropertySourcesPropertyResolver
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.support.ResourcePropertySource
+import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.util.ResourceUtils
 import java.io.File
-import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.test.Test
@@ -33,59 +32,14 @@ import kotlin.test.assertTrue
 
 @RunWith(SpringRunner::class)
 @ContextConfiguration(classes = [ServerConfig::class])
-class PropertiesTest {
+@EnableScheduling
+class ApacheConfigTest {
 
   @Inject
   private lateinit var applicationContext: ConfigurableApplicationContext
 
   private val logger = KotlinLogging.logger { }
 
-  /**
-   * user.alias=DefaultUser
-   */
-  @Test
-  fun serverDefaults() {
-    val userName = javaClass.getResourceAsStream("/server-defaults.properties").use { iStream ->
-      Properties().apply {
-        load(iStream)
-      }["user.alias"]!!
-    }
-    assertEquals("DefaultUser", userName)
-  }
-
-  /**
-   * server-defaults.properties : user.alias=DefaultUser
-   * server-local.properties    : user.alias=LocalUser
-   */
-  @Test
-  fun propertiesFrom_resource() {
-    val propertySources = MutablePropertySources()
-    propertySources.addLast(ResourcePropertySource("local", "classpath:server-local.properties"))
-    propertySources.addLast(ResourcePropertySource("defaults", "classpath:server-defaults.properties"))
-
-    propertySources.forEach { pSource ->
-      logger.info("property source name = {} , user.alias = {}", pSource.name, pSource.getProperty("user.alias"))
-    }
-  }
-
-  /**
-   * /tmp/server-temp.properties : user.alias=TempUser
-   */
-  @Test
-  fun propertiesFrom_map_file_classpath() {
-    val propertySources = MutablePropertySources()
-
-    propertySources.addLast(MapPropertySource("dynamic", mapOf("user.alias" to "DynamicUser")))
-    propertySources.addLast(ResourcePropertySource(FileSystemResource(File("/tmp/server-temp.properties"))))
-    propertySources.addLast(ResourcePropertySource(FileSystemResource(ResourceUtils.getFile("classpath:server-local.properties"))))
-    propertySources.addLast(ResourcePropertySource(FileSystemResource(ResourceUtils.getFile("classpath:server-defaults.properties"))))
-    propertySources.forEach { pSource ->
-      logger.info("property source name = {} , user.alias = {}", pSource.name, pSource.getProperty("user.alias"))
-    }
-
-    val resolver = PropertySourcesPropertyResolver(propertySources)
-    assertEquals("DynamicUser" , resolver.getProperty("user.alias"))
-  }
 
   @Test
   fun apacheSolution() {
@@ -99,8 +53,8 @@ class PropertiesTest {
     val trigger = PeriodicReloadingTrigger(builder.reloadingController, null, 1, TimeUnit.SECONDS)
     trigger.start()
 
-    while(true) {
-      logger.info("user.alias = {}" , builder.configuration.getString("user.alias"))
+    while (true) {
+      logger.info("user.alias = {}", builder.configuration.getString("user.alias"))
       TimeUnit.SECONDS.sleep(1)
     }
   }
@@ -114,7 +68,7 @@ class PropertiesTest {
     val builder = ReloadingFileBasedConfigurationBuilder<FileBasedConfiguration>(PropertiesConfiguration::class.java)
       .configure(params.fileBased().setFile(tempFile))
 
-    val apachePropertySource = ConfigurationPropertySource("APACHE-IMPL" , builder.configuration)
+    val apachePropertySource = ConfigurationPropertySource("APACHE-IMPL", builder.configuration)
     val trigger = PeriodicReloadingTrigger(builder.reloadingController, null, 1, TimeUnit.SECONDS)
     trigger.start()
 
@@ -125,8 +79,8 @@ class PropertiesTest {
 
     val resolver = PropertySourcesPropertyResolver(propertySources)
 
-    while(true) {
-      logger.info("user.alias = {}" , resolver.getProperty("user.alias"))
+    while (true) {
+      logger.info("user.alias = {}", resolver.getProperty("user.alias"))
       TimeUnit.SECONDS.sleep(1)
     }
   }
@@ -148,8 +102,8 @@ class PropertiesTest {
 
     val resolver = PropertySourcesPropertyResolver(propertySources)
 
-    while(true) {
-      logger.info("user.alias = {}" , resolver.getProperty("user.alias"))
+    while (true) {
+      logger.info("user.alias = {}", resolver.getProperty("user.alias"))
       TimeUnit.SECONDS.sleep(1)
     }
 

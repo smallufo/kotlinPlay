@@ -3,6 +3,7 @@
  */
 package foobar
 
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 import org.springframework.context.annotation.PropertySources
@@ -11,10 +12,11 @@ import org.springframework.context.annotation.PropertySources
 @Configuration
 @PropertySources(
   PropertySource("classpath:server-defaults.properties"),
-  PropertySource("classpath:server-local.properties")
+  PropertySource("file:/tmp/server-local.properties")
 )
-open class ServerConfig {
+@ComponentScan(basePackages = ["foobar"])
+open class ServerConfig
 
-
-
-}
+@Configuration
+//@ComponentScan(basePackages = ["foobar"]) (不能 scan , 否則會掃到 server-defaults.properties )
+open class EmptyConfig
