@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.support.ResourcePropertySource
-import org.springframework.util.ResourceUtils
 import java.io.File
 
 
@@ -21,16 +20,17 @@ class SpringAppInit : ApplicationContextInitializer<ConfigurableApplicationConte
       logger.info("原有 {}" , pSource)
     }
 
-    logger.info("{}", ctx.environment.propertySources)
+    val localFile = File("/tmp/server-local.properties")
+    require(localFile.exists())
 
-    val tempFile = File("/tmp/server-local.properties")
-    require(tempFile.exists())
 
 
     ctx.environment.propertySources.run {
-      addLast(ResourcePropertySource(FileSystemResource(tempFile)))
-      addLast(ResourcePropertySource(FileSystemResource(ResourceUtils.getFile("classpath:server-defaults.properties"))))
+      addLast(ReloadablePropertySource("local" , FileSystemResource(localFile)))
+      addLast(ResourcePropertySource("defaults", "classpath:server-defaults.properties"))
     }
+
+    logger.info("============== SpringAppInit (after modified)   ")
 
     ctx.environment.propertySources.forEach { pSource ->
       logger.info("最後 {}" , pSource)

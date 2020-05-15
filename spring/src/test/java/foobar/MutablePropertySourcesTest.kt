@@ -34,8 +34,8 @@ class MutablePropertySourcesTest {
   }
 
   /**
-   * server-defaults.properties : user.alias=DefaultUser
    * server-local.properties    : user.alias=LocalUser
+   * server-defaults.properties : user.alias=DefaultUser
    */
   @Test
   fun propertiesFrom_file_classpath() {

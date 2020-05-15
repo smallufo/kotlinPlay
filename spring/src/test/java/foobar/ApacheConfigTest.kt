@@ -43,7 +43,7 @@ class ApacheConfigTest {
 
   @Test
   fun apacheSolution() {
-    val tempFile = File("/tmp/server-temp.properties")
+    val tempFile = File("/tmp/server-local.properties")
     require(tempFile.exists())
 
     val params = Parameters()

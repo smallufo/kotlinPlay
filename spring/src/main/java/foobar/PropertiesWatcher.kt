@@ -23,6 +23,7 @@ class PropertiesWatcher {
     environment.propertySources.filter { ps ->
       ps is ReloadablePropertySource
     }
+
   }
 
   companion object {
