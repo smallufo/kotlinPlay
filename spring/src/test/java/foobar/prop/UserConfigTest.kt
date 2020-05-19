@@ -1,7 +1,7 @@
 /**
  * Created by smallufo on 2020-03-12.
  */
-package foobar
+package foobar.prop
 
 import mu.KotlinLogging
 import org.junit.runner.RunWith

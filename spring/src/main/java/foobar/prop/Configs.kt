@@ -1,7 +1,7 @@
 /**
  * Created by smallufo on 2020-05-13.
  */
-package foobar
+package foobar.prop
 
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
@@ -14,7 +14,7 @@ import org.springframework.context.annotation.PropertySources
   PropertySource("classpath:server-defaults.properties"),
   PropertySource("file:/tmp/server-local.properties")
 )
-@ComponentScan(basePackages = ["foobar"])
+@ComponentScan(basePackages = ["foobar.prop"])
 open class ServerConfig
 
 @Configuration

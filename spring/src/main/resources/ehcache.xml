@@ -1,0 +1,29 @@
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.ehcache.org/v3'
+        xmlns:jsr107='http://www.ehcache.org/v3/jsr107'
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
+                            http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
+
+  <service>
+    <jsr107:defaults enable-management="true"
+                     enable-statistics="true"
+                     default-template="default-template">
+    </jsr107:defaults>
+  </service>
+
+  <cache alias="areaOfCircleEhcache">
+    <heap>100</heap>
+  </cache>
+
+  <cache alias="myCache">
+    <heap>100</heap>
+  </cache>
+
+  <cache-template name="default-template">
+    <expiry>
+      <ttl>60</ttl>
+    </expiry>
+    <heap>100</heap>
+  </cache-template>
+
+</config>

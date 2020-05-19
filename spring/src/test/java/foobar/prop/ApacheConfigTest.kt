@@ -1,7 +1,7 @@
 /**
  * Created by smallufo on 2020-05-13.
  */
-package foobar
+package foobar.prop
 
 import mu.KotlinLogging
 import org.apache.commons.configuration2.FileBasedConfiguration

@@ -1,7 +1,7 @@
 /**
  * Created by smallufo on 2020-05-15.
  */
-package foobar
+package foobar.prop
 
 import mu.KotlinLogging
 import org.springframework.context.ApplicationContextInitializer
@@ -26,7 +26,7 @@ class SpringAppInit : ApplicationContextInitializer<ConfigurableApplicationConte
 
 
     ctx.environment.propertySources.run {
-      addLast(ReloadablePropertySource("local" , FileSystemResource(localFile)))
+      addLast(ReloadablePropertySource("local", FileSystemResource(localFile)))
       addLast(ResourcePropertySource("defaults", "classpath:server-defaults.properties"))
     }
 
