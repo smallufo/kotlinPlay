@@ -1,7 +1,7 @@
 /**
  * Created by smallufo on 2020-05-14.
  */
-package foobar.prop
+package prop
 
 import mu.KotlinLogging
 import org.springframework.core.env.MutablePropertySources
@@ -33,21 +33,21 @@ abstract class ReloadableProperties {
     logger.info("======== ======== ======== PostConstruct")
     val propertySources: MutablePropertySources = environment.propertySources.also { sources ->
       sources.forEach { ps ->
-        logger.info("{}" , ps.name)
+        logger.info("{}", ps.name)
       }
     }
 
 
 
     appConfigPropertySource = propertySources.firstOrNull { ps ->
-      logger.info("ps.name = '{}'" , ps.name)
+      logger.info("ps.name = '{}'", ps.name)
       ps.name.matches("^file.*".toRegex())
       //ps.name.matches("^.*applicationConfig.*file:.*$".toRegex())
     } ?: {
       throw RuntimeException("Unable to find property Source as file")
     }.invoke()
 
-    logger.info("appConfigPropertySource = {}" , appConfigPropertySource)
+    logger.info("appConfigPropertySource = {}", appConfigPropertySource)
 
     val filename = appConfigPropertySource.name
       .replace("applicationConfig: [file:", "")
@@ -69,7 +69,7 @@ abstract class ReloadableProperties {
 
       environment.propertySources.replace(appConfigPropertySource.name, PropertiesPropertySource(appConfigPropertySource.name, properties))
 
-      logger.info("Property {} reloaded" , appConfigPropertySource.name)
+      logger.info("Property {} reloaded", appConfigPropertySource.name)
       println("Reloaded.")
       propertiesReloaded()
     }

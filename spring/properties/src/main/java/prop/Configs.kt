@@ -1,7 +1,7 @@
 /**
  * Created by smallufo on 2020-05-13.
  */
-package foobar.prop
+package prop
 
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration

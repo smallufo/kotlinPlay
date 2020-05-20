@@ -1,7 +1,7 @@
 /**
  * Created by smallufo on 2020-05-13.
  */
-package foobar.prop
+package prop
 
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.support.ResourcePropertySource

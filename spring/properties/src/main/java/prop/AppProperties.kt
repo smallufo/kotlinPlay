@@ -1,7 +1,7 @@
 /**
  * Created by smallufo on 2020-05-14.
  */
-package foobar.prop
+package prop
 
 //@Component
 class AppProperties : ReloadableProperties() {

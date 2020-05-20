@@ -1,7 +1,7 @@
 /**
  * Created by smallufo on 2020-05-15.
  */
-package foobar.prop
+package prop
 
 import mu.KotlinLogging
 import org.springframework.core.env.MapPropertySource

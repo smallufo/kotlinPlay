@@ -1,7 +1,7 @@
 /**
  * Created by smallufo on 2020-05-15.
  */
-package foobar.prop
+package prop
 
 import mu.KotlinLogging
 import org.springframework.context.ApplicationContextInitializer
@@ -17,7 +17,7 @@ class SpringAppInit : ApplicationContextInitializer<ConfigurableApplicationConte
     logger.info("============== SpringAppInit ")
 
     ctx.environment.propertySources.forEach { pSource ->
-      logger.info("原有 {}" , pSource)
+      logger.info("原有 {}", pSource)
     }
 
     val localFile = File("/tmp/server-local.properties")
@@ -33,7 +33,7 @@ class SpringAppInit : ApplicationContextInitializer<ConfigurableApplicationConte
     logger.info("============== SpringAppInit (after modified)   ")
 
     ctx.environment.propertySources.forEach { pSource ->
-      logger.info("最後 {}" , pSource)
+      logger.info("最後 {}", pSource)
     }
   }
 
