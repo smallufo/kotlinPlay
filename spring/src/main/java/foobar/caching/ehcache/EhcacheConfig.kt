@@ -18,10 +18,10 @@ import javax.cache.spi.CachingProvider
 @Configuration
 @EnableCaching
 @ComponentScan(basePackages = ["foobar.caching.ehcache"])
-open class EhcacheConfig {
+class EhcacheConfig {
 
   @Bean
-  open fun jCacheManager(): CacheManager {
+  fun jCacheManager(): CacheManager {
     val provider: CachingProvider = Caching.getCachingProvider()
     logger.info("cachingProvider = {}", provider)
 
@@ -42,12 +42,12 @@ open class EhcacheConfig {
 
 
   @Bean// (name = ["ehcacheCM"])
-  open fun cacheManager(jCacheManager: CacheManager): org.springframework.cache.CacheManager {
+  fun cacheManager(jCacheManager: CacheManager): org.springframework.cache.CacheManager {
     return JCacheCacheManager(jCacheManager)
   }
 
   @Bean
-  open fun myCache(jCacheManager: CacheManager) : Cache<Any,Any> {
+  fun myCache(jCacheManager: CacheManager) : Cache<Any,Any> {
     return jCacheManager.getCache("myCache")
   }
 

@@ -14,10 +14,10 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @EnableCaching
 @ComponentScan(basePackages = ["foobar.caching.springBuiltIn"])
-open class SpringCacheConfig {
+class SpringCacheConfig {
 
   @Bean//(name = ["springCM"])
-  open fun cacheManager() : CacheManager {
+  fun cacheManager() : CacheManager {
     return ConcurrentMapCacheManager()
     //return ConcurrentMapCacheManager("areaOfCircle")
   }
