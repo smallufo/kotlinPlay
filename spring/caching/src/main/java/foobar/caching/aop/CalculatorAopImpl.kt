@@ -1,7 +1,7 @@
 /**
- * Created by smallufo on 2020-05-20.
+ * Created by smallufo on 2020-05-22.
  */
-package foobar.caching.ehcache
+package foobar.caching.aop
 
 import foobar.caching.ICalculator
 import mu.KotlinLogging
@@ -11,10 +11,14 @@ import kotlin.math.pow
 
 
 @Named
-open class CalculatorEhcacheImpl : ICalculator {
+open class CalculatorAopImpl : ICalculator {
 
-  @Cacheable("areaOfCircleEhcache")
   override fun areaOfCircle(radius: Double): Double {
+    return inner(radius)
+  }
+
+  @Cacheable("areaOfCircleAopCache")
+  open fun inner(radius: Double) : Double {
     logger.info("hit radius = {}", radius)
     return Math.PI * radius.pow(2)
   }

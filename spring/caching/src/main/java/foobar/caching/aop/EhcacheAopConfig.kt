@@ -1,7 +1,7 @@
 /**
- * Created by smallufo on 2020-05-20.
+ * Created by smallufo on 2020-05-22.
  */
-package foobar.caching.ehcache
+package foobar.caching.aop
 
 import mu.KotlinLogging
 import org.springframework.cache.annotation.EnableCaching
@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import java.lang.management.ManagementFactory
-import javax.cache.Cache
 import javax.cache.CacheManager
 import javax.cache.Caching
 import javax.cache.spi.CachingProvider
@@ -21,9 +20,8 @@ import javax.management.ObjectName
 
 @Configuration
 @EnableCaching
-@ComponentScan(basePackages = ["foobar.caching.ehcache"])
-class EhcacheConfig {
-
+@ComponentScan(basePackages = ["foobar.caching.aop"])
+class EhcacheAopConfig {
   @Bean
   fun jCacheManager(): CacheManager {
     val provider: CachingProvider = Caching.getCachingProvider()
@@ -44,16 +42,9 @@ class EhcacheConfig {
     return cacheManager
   }
 
-
-
   @Bean
   fun cacheManager(jCacheManager: CacheManager): org.springframework.cache.CacheManager {
     return JCacheCacheManager(jCacheManager)
-  }
-
-  @Bean
-  fun myCache(jCacheManager: CacheManager) : Cache<Any,Any> {
-    return jCacheManager.getCache("myCache")
   }
 
   @Bean

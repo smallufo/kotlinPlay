@@ -1,37 +1,34 @@
 /**
- * Created by smallufo on 2020-05-20.
+ * Created by smallufo on 2020-05-22.
  */
-package foobar.caching.springBuiltIn
+package foobar.caching.aop
 
 import foobar.caching.ICalculator
 import mu.KotlinLogging
+
 import org.junit.runner.RunWith
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringRunner
 import javax.inject.Inject
 import kotlin.test.Test
+import kotlin.time.ExperimentalTime
+import kotlin.time.measureTimedValue
 
 @RunWith(SpringRunner::class)
-@ContextConfiguration(classes = [SpringCacheConfig::class])
-class CalculatorSpringCacheImplTest {
+@ContextConfiguration(classes = [EhcacheAopConfig::class])
+@OptIn(ExperimentalTime::class)
+class CalculatorAopImplTest {
 
   @Inject
   private lateinit var service: ICalculator
 
   private val logger = KotlinLogging.logger { }
 
-
-
   @Test
-  fun testCaching() {
+  fun areaOfCircle() {
     repeat(5) {
-      service.areaOfCircle(10.0).also {
-        logger.info("result = {}", it)
-      }
-    }
-    repeat(5) {
-      service.areaOfCircle(20.0).also {
-        logger.info("result = {}", it)
+      measureTimedValue { service.areaOfCircle(10.0) }.also { r ->
+        logger.info("result = {} , takes {}", r.value, r.duration)
       }
     }
   }
