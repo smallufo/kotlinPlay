@@ -15,8 +15,8 @@ import org.springframework.context.annotation.PropertySources
   PropertySource("file:/tmp/server-local.properties")
 )
 @ComponentScan(basePackages = ["foobar.prop"])
-open class ServerConfig
+class ServerConfig
 
 @Configuration
 //@ComponentScan(basePackages = ["foobar"]) (不能 scan , 否則會掃到 server-defaults.properties )
-open class EmptyConfig
+class EmptyConfig

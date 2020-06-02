@@ -20,6 +20,7 @@
     <module>spring</module>
     <module>phone</module>
     <module>jasperReport</module>
+    <module>testExecListener</module>
   </modules>
 
   <properties>
