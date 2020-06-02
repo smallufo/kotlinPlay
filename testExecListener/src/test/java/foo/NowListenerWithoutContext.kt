@@ -4,13 +4,15 @@
 package foo
 
 import mu.KotlinLogging
+import org.springframework.context.ApplicationContext
 import org.springframework.test.context.TestContext
 import org.springframework.test.context.support.AbstractTestExecutionListener
 import org.springframework.util.ReflectionUtils
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-class NowListener : AbstractTestExecutionListener() {
+
+class NowListenerWithoutContext : AbstractTestExecutionListener() {
 
   override fun prepareTestInstance(testContext: TestContext) {
     super.prepareTestInstance(testContext)

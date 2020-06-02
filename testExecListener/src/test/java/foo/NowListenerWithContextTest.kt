@@ -5,14 +5,16 @@ package foo
 
 import mu.KotlinLogging
 import org.junit.runner.RunWith
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
 import java.time.LocalDateTime
 import kotlin.test.Test
 
 @RunWith(SpringRunner::class)
-@TestExecutionListeners(NowListener::class)
-class NowTest {
+@ContextConfiguration(classes = [SpringConfig::class])
+@TestExecutionListeners(NowListenerWithContext::class)
+class NowListenerWithContextTest {
 
   @Now
   private lateinit var nowTaipei: LocalDateTime
