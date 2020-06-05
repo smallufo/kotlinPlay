@@ -11,15 +11,20 @@ import org.springframework.util.ReflectionUtils
 
 class NowListenerWithContext : AbstractTestExecutionListener() {
 
+
   override fun prepareTestInstance(testContext: TestContext) {
     super.prepareTestInstance(testContext)
 
     val appContext: ApplicationContext = testContext.applicationContext
-    logger.info("app context = {}", appContext)
-    appContext.getBean("timeDefaultImpl").also { bean ->
-      val timeImpl = (bean as ITime)
-      logger.info("timeImpl = {}", timeImpl)
+    logger.debug("app context = {}", appContext)
 
+    appContext.getBean(ITime::class.java).also { bean ->
+      logger.info("bean from interface = {}" , bean)
+    }
+
+    appContext.getBean("timeDefaultImpl" , ITime::class.java).also { timeImpl: ITime ->
+
+      logger.info("bean from string = {}", timeImpl)
 
       val testObj = testContext.testInstance
       val testClass = testContext.testClass
@@ -29,7 +34,7 @@ class NowListenerWithContext : AbstractTestExecutionListener() {
           val originalCanAccess = field.canAccess(testObj)
           field.isAccessible = true
 
-          val localDateTime = timeImpl.getTime(now.timeZone)
+          val localDateTime = timeImpl.getTime(now.timeZone ,  now.offsetMin)
 
 
           field.set(testObj, localDateTime)

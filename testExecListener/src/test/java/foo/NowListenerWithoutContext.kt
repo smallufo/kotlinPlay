@@ -31,7 +31,7 @@ class NowListenerWithoutContext : AbstractTestExecutionListener() {
           ZoneId.systemDefault()
         }
 
-        val localDateTime = ZonedDateTime.now().withZoneSameInstant(zoneId).toLocalDateTime()
+        val localDateTime = ZonedDateTime.now().plusMinutes(now.offsetMin).withZoneSameInstant(zoneId).toLocalDateTime()
 
         field.set(testObj, localDateTime)
         field.isAccessible = originalCanAccess

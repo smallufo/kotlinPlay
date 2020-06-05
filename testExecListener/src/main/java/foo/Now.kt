@@ -5,5 +5,5 @@ package foo
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.TYPE, AnnotationTarget.FUNCTION, AnnotationTarget.FIELD)
-@MustBeDocumented
-annotation class Now(val timeZone: String = "Asia/Taipei")
+annotation class Now(val timeZone: String = "Asia/Taipei" ,
+                    val offsetMin : Long = 0)

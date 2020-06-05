@@ -8,6 +8,6 @@ import java.time.LocalDateTime
 
 interface ITime {
 
-  fun getTime(timeZone : String) : LocalDateTime
+  fun getTime(timeZone : String , offsetMin : Long = 0) : LocalDateTime
 }
 
