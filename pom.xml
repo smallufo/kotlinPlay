@@ -21,6 +21,7 @@
     <module>phone</module>
     <module>jasperReport</module>
     <module>testExecListener</module>
+    <module>jwt</module>
   </modules>
 
   <properties>
