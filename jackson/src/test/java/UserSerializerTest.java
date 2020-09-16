@@ -22,7 +22,7 @@ public class UserSerializerTest {
   }
 
   @Test
-  public void testDeserialize() throws JsonProcessingException {
+  public void testDeserializeSafePhone() throws JsonProcessingException {
     String json = "{\"name\":\"john\",\"age\":18,\"phone\":{\"@class\":\"foo.InternationalPhone\",\"areaCode\":2,\"local\":1234567,\"countryCode\":886}}";
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -45,11 +45,14 @@ public class UserSerializerTest {
   public void testPreventDeserializeDangerous() throws Exception {
     String json = "{\"name\":\"john\",\"age\":18,\"phone\":{\"@class\":\"foo.DangerousPhone\",\"areaCode\":2,\"local\":1234567}}";
 
-    PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
-      .build();
+    PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder().build();
 
     ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.activateDefaultTyping(ptv , ObjectMapper.DefaultTyping.NON_FINAL);
+    //objectMapper.activateDefaultTyping(ptv , ObjectMapper.DefaultTyping.JAVA_LANG_OBJECT);  // success
+    //objectMapper.activateDefaultTyping(ptv , ObjectMapper.DefaultTyping.OBJECT_AND_NON_CONCRETE);  // success
+    //objectMapper.activateDefaultTyping(ptv , ObjectMapper.DefaultTyping.NON_CONCRETE_AND_ARRAYS); // success
+    //objectMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.EVERYTHING);// failed
+    objectMapper.activateDefaultTyping(ptv , ObjectMapper.DefaultTyping.NON_FINAL); // failed
 
     User u = objectMapper.readValue(json, User.class);
 
