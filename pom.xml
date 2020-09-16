@@ -23,6 +23,7 @@
     <module>testExecListener</module>
     <module>jwt</module>
     <module>machineLearning</module>
+    <module>jackson</module>
   </modules>
 
   <properties>
