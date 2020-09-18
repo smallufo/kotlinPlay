@@ -156,8 +156,8 @@ public class UserSerializerTest {
     try {
       objectMapper.readValue(json, User.class);
       fail();
-    } catch (Exception ignored) {
-      ignored.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
