@@ -3,9 +3,7 @@
  */
 package foo;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-
-@JsonSubTypes.Type(value = InternationalPhone.class , name = "international")
+//@JsonSubTypes.Type(value = InternationalPhone.class , name = "international")
 public class InternationalPhone extends Phone {
 
   private int countryCode;

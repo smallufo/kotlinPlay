@@ -6,7 +6,7 @@ package foo;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = InternationalPhone.class , name = "international"),
   @JsonSubTypes.Type(value = DomesticPhone.class , name = "domestic")

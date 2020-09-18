@@ -4,12 +4,16 @@
 package foo;
 
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-
-@JsonSubTypes.Type(value = DomesticPhone.class , name = "domestic")
+//@JsonSubTypes.Type(value = DomesticPhone.class , name = "domestic")
 public class DomesticPhone extends Phone {
 
   public DomesticPhone() {
+
+  }
+
+  public DomesticPhone(int areaCode , int local) {
+    this.areaCode = areaCode;
+    this.local = local;
   }
 
   @Override
