@@ -9,7 +9,6 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
 import java.time.LocalDateTime
-import javax.inject.Inject
 import kotlin.test.Test
 
 @RunWith(SpringRunner::class)

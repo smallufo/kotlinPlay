@@ -20,10 +20,10 @@
     <module>spring</module>
     <module>phone</module>
     <module>jasperReport</module>
-    <module>testExecListener</module>
     <module>jwt</module>
     <module>machineLearning</module>
     <module>jackson</module>
+    <module>tribuo</module>
   </modules>
 
   <properties>

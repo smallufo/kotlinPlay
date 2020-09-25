@@ -14,7 +14,7 @@
   <modules>
     <module>caching</module>
     <module>properties</module>
-    <module>proxy</module>
+    <module>execListener</module>
   </modules>
 
   <properties>
