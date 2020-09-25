@@ -1,7 +1,7 @@
 /**
  * Created by kevin.huang on 2020-09-25.
  */
-package foo
+package tribuo
 
 import mu.KotlinLogging
 import org.tribuo.Model
@@ -17,7 +17,7 @@ import org.tribuo.evaluation.TrainTestSplitter
 import java.net.URL
 import java.nio.file.Paths
 
-fun main(args: Array<String>) {
+fun main() {
   println("Hello World!")
 
   val logger = KotlinLogging.logger { }

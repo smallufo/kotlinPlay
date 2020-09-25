@@ -18,7 +18,7 @@ class MoshiTest {
       .add(converter.getAdapter())
       .build()
 
-    val adapter = moshi.adapter<IRunnable>(IRunnable::class.java)
+    val adapter = moshi.adapter(IRunnable::class.java)
     adapter.toJson(Dog()).also { json ->
       assertEquals("""{"runnable":"D"}""" , json)
       adapter.fromJson(json).also { runnable ->

@@ -1,3 +1,5 @@
+package manual
+
 import org.la4j.Matrix
 import java.util.*
 import kotlin.math.exp
