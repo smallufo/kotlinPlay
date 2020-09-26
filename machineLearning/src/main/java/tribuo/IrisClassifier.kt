@@ -18,8 +18,6 @@ import java.net.URL
 import java.nio.file.Paths
 
 fun main() {
-  println("Hello World!")
-
   val logger = KotlinLogging.logger { }
 
   val labelFactory = LabelFactory()
