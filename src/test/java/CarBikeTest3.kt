@@ -1,13 +1,13 @@
 /**
  * Created by smallufo on 2018-11-02.
  */
-package foo
 
-import destiny.chatbot.misc.CarBikeTest3.Bike.Vendor.Giant
-import destiny.chatbot.misc.CarBikeTest3.Bike.Vendor.Merida
-import destiny.chatbot.misc.CarBikeTest3.Car.CarBuilder
-import destiny.chatbot.misc.CarBikeTest3.Car.Type.*
-import destiny.chatbot.misc.CarBikeTest3.Car.Vendor.*
+
+import CarBikeTest3.Bike.Vendor.Giant
+import CarBikeTest3.Bike.Vendor.Merida
+import CarBikeTest3.Car.Type.Coupe
+import CarBikeTest3.Car.Type.HatchBack
+import CarBikeTest3.Car.Vendor.*
 import kotlin.test.Test
 
 class CarBikeTest3 {
@@ -15,7 +15,7 @@ class CarBikeTest3 {
 
   data class Car(val vendor: Vendor,
                  val model: String,
-                 val type: Type = Sedan,
+                 val type: Type = Type.Sedan,
                  val doors: Int = 4) {
 
     enum class Vendor { Audi, BMW, Benz }
@@ -23,7 +23,7 @@ class CarBikeTest3 {
     enum class Type { Sedan, Coupe, HatchBack }
 
     class CarBuilder(private val vendor: Vendor, private val model: String) {
-      var type = Sedan
+      var type = Type.Sedan
       var doors = 4
       fun build() = Car(vendor, model, type, doors)
     }
@@ -57,7 +57,7 @@ class CarBikeTest3 {
 
   class Cars : ArrayList<Car>() {
     fun car(vendor: Car.Vendor, model: String, block: Car.CarBuilder.() -> Unit = {}) {
-      add(CarBuilder(vendor, model).apply(block).build())
+      add(Car.CarBuilder(vendor, model).apply(block).build())
     }
   }
 

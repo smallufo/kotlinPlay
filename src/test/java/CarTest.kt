@@ -1,7 +1,6 @@
 /**
  * Created by smallufo on 2018-11-02.
  */
-package foo
 
 import kotlin.test.Test
 

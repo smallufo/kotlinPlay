@@ -1,12 +1,10 @@
 /**
  * Created by smallufo on 2018-11-02.
  */
-package foo
 
 import kotlin.test.Test
 
-
-class CarBikeTest {
+class CarBikeTest2 {
 
   enum class CarVendor { Audi, BMW, Benz }
 
@@ -36,39 +34,55 @@ class CarBikeTest {
     private var cars = mutableListOf<Car>()
     private var bikes = mutableListOf<Bike>()
 
-    fun car(vendor: CarVendor, model: String, block: CarBuilder.() -> Unit = {}) {
-      cars.add(CarBuilder(vendor, model).apply(block).build())
+    fun cars(block: Cars.() -> Unit) {
+      cars.addAll(Cars().apply(block))
     }
 
-    fun bike(vendor: BikeVendor, model: String) {
-      bikes.add(Bike(vendor, model))
+    fun bikes(block: Bikes.() -> Unit) {
+      bikes.addAll(Bikes().apply(block))
     }
 
-    fun build() = Garage(address, cars , bikes)
+    fun build() = Garage(address, cars, bikes)
   }
 
+  class Cars : ArrayList<Car>() {
+    fun car(vendor: CarVendor, model: String, block: CarBuilder.() -> Unit = {}) {
+      add(CarBuilder(vendor, model).apply(block).build())
+    }
+  }
+
+  class Bikes : ArrayList<Bike>() {
+    operator fun Bike.unaryPlus() {
+      add(this)
+    }
+  }
+
+
   companion object {
-    fun garage(address: String, block: GarageBuilder.() -> Unit)
-      = GarageBuilder(address).apply(block).build()
+    fun garage(address: String, block: GarageBuilder.() -> Unit) = GarageBuilder(address).apply(block).build()
   }
 
   @Test
-  fun carsMixedWithBikes() {
+  fun carsSeparatedFromBikes() {
     val garage1 = garage("台北市忠孝東路一段1號") {
-      car(CarVendor.Audi, "A4")
-      bike(BikeVendor.Merida , "Crossway 100")
-      car(CarVendor.BMW , "440i") {
-        type = CarType.Coupe
-        doors = 2
+      cars {
+        car(CarVendor.Audi, "A4")
+        car(CarVendor.BMW, "440i") {
+          type = CarType.Coupe
+          doors = 2
+        }
+        car(CarVendor.Benz, "A250") {
+          type = CarType.HatchBack
+          doors = 5
+        }
       }
-      bike(BikeVendor.Giant , "Glory 27.5")
-      car(CarVendor.Benz , "A250") {
-        type = CarType.HatchBack
-        doors = 5
+
+      bikes {
+        +Bike(BikeVendor.Merida, "Crossway 100")
+        +Bike(BikeVendor.Giant, "Glory 27.5")
       }
     }
 
     println(garage1)
   }
-
 }
