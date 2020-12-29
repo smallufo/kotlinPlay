@@ -17,6 +17,7 @@ class RandomPhotoUrlPicsum {
    */
   private val ktorClient = HttpClient {
     followRedirects = false
+    expectSuccess = false
   }
 
   suspend fun getPhotoUrl(width: Int, height: Int): String? {
