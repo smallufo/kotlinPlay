@@ -24,15 +24,15 @@
   </properties>
 
   <dependencies>
-<!--    <dependency>-->
-<!--      <groupId>org.jetbrains.kotlinx</groupId>-->
-<!--      <artifactId>kotlinx-serialization-core</artifactId>-->
-<!--      <version>${kotlin.serialization.version}</version>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>org.jetbrains.kotlinx</groupId>
+      <artifactId>kotlinx-serialization-core</artifactId>
+      <version>${kotlin.serialization.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.jetbrains.kotlinx</groupId>
       <artifactId>kotlinx-serialization-core-jvm</artifactId>
-      <version>${kotlin.version}</version>
+      <version>${kotlin.serialization.version}</version>
     </dependency>
 <!--    <dependency>-->
 <!--      <groupId>org.jetbrains.kotlinx</groupId>-->
@@ -42,7 +42,7 @@
     <dependency>
       <groupId>org.jetbrains.kotlinx</groupId>
       <artifactId>kotlinx-serialization-json-jvm</artifactId>
-      <version>${kotlin.version}</version>
+      <version>${kotlin.serialization.version}</version>
     </dependency>
 
 
