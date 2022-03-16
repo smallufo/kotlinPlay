@@ -11,19 +11,6 @@
 
   <artifactId>hedging</artifactId>
 
-  <properties>
-    <ktor.version>1.2.5</ktor.version>
-  </properties>
-
-  <repositories>
-    <!--
-    for kotlin-coroutines-okhttp
-    -->
-    <repository>
-      <id>jitpack.io</id>
-      <url>https://jitpack.io</url>
-    </repository>
-  </repositories>
 
   <dependencies>
 

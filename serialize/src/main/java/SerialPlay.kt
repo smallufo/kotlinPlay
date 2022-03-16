@@ -55,6 +55,7 @@ class AnimalSerializer : KSerializer<Animal> {
 }
 
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializer(forClass = IRunnable::class)
 class RunnableSerializer : KSerializer<IRunnable> {
   override val descriptor: SerialDescriptor

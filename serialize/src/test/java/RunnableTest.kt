@@ -28,21 +28,6 @@ object CatSerializer {
   }
 }
 
-@Serializer(forClass = Dog::class)
-object DogSerializer {
-//  override val descriptor: SerialDescriptor
-//    get() = SerialClassDescImpl("DOG")
-//    //get() = StringDescriptor.withName("DOG")
-//
-//  override fun serialize(encoder: Encoder, obj: Dog) {
-//    encoder.encodeString("DOG")
-//  }
-//
-//  override fun deserialize(decoder: Decoder): Dog {
-//    return Dog()
-//  }
-
-}
 
 @Serializable
 data class Zoo(
