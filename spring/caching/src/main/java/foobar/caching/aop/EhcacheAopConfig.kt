@@ -30,10 +30,10 @@ class EhcacheAopConfig {
     val cacheManager: CacheManager = javaClass.getResource("/ehcache.xml").takeIf { it != null }?.let { ehcacheUrl ->
       logger.info("loading ehcache.xml from {}", ehcacheUrl)
       provider.getCacheManager(ehcacheUrl.toURI(), provider.defaultClassLoader)
-    } ?: {
+    } ?: run {
       logger.warn("No ehcache.xml found in classpath")
       provider.cacheManager
-    }.invoke()
+    }
 
     for (s in cacheManager.cacheNames) {
       logger.info("[jCache] cacheName : {}", s)

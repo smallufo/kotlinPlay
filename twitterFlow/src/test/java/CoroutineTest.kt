@@ -14,7 +14,7 @@ import kotlin.system.measureTimeMillis
 
 val logger = KotlinLogging.logger { }
 
-fun main() = runBlocking<Unit> {
+fun main() = runBlocking {
   //sampleStart
   val time = measureTimeMillis {
     logger.info("The answer is ${concurrentSum()}")

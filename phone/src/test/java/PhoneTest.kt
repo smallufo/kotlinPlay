@@ -14,14 +14,14 @@ class PhoneTest {
   @Test
   fun testTW() {
     val phoneUtil = PhoneNumberUtil.getInstance()
-    val global = phoneUtil.format(phoneUtil.parse("0912345678", "TW"), PhoneNumberUtil.PhoneNumberFormat.E164);
+    val global = phoneUtil.format(phoneUtil.parse("0912345678", "TW"), PhoneNumberUtil.PhoneNumberFormat.E164)
     logger.info("result = {}", global)
   }
 
   @Test
   fun testHK() {
     val phoneUtil = PhoneNumberUtil.getInstance()
-    val global = phoneUtil.format(phoneUtil.parse("85298000123", "HK"), PhoneNumberUtil.PhoneNumberFormat.E164);
+    val global = phoneUtil.format(phoneUtil.parse("85298000123", "HK"), PhoneNumberUtil.PhoneNumberFormat.E164)
     logger.info("result = {}", global)
   }
 }

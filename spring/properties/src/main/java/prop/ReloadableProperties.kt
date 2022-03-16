@@ -43,9 +43,7 @@ abstract class ReloadableProperties {
       logger.info("ps.name = '{}'", ps.name)
       ps.name.matches("^file.*".toRegex())
       //ps.name.matches("^.*applicationConfig.*file:.*$".toRegex())
-    } ?: {
-      throw RuntimeException("Unable to find property Source as file")
-    }.invoke()
+    } ?: throw RuntimeException("Unable to find property Source as file")
 
     logger.info("appConfigPropertySource = {}", appConfigPropertySource)
 

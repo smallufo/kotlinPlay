@@ -15,10 +15,10 @@ data class User(
 )
 
 @Configuration
-open class UserConfig {
+class UserConfig {
 
   @Bean
-  open fun userKevin(): User {
+  fun userKevin(): User {
     return User("Kevin")
   }
 }

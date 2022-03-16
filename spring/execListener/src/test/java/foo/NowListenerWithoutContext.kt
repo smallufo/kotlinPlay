@@ -4,7 +4,6 @@
 package foo
 
 import mu.KotlinLogging
-import org.springframework.context.ApplicationContext
 import org.springframework.test.context.TestContext
 import org.springframework.test.context.support.AbstractTestExecutionListener
 import org.springframework.util.ReflectionUtils
