@@ -12,7 +12,7 @@
   <artifactId>springBoot</artifactId>
 
   <properties>
-    <springboot.version>2.6.4</springboot.version>
+    <springboot.version>2.6.6</springboot.version>
   </properties>
 
   <dependencies>
