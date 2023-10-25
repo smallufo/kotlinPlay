@@ -47,7 +47,7 @@
         <version>${kotlin.version}</version>
         <configuration>
           <args>
-            <arg>-Xjvm-default=enable</arg>
+            <arg>-Xjvm-default=all</arg>
             <arg>-Xopt-in=enable</arg>
             <arg>-Xjsr305=strict</arg>
           </args>
